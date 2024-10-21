@@ -1,0 +1,12 @@
+{
+    "name": "jizx",
+    "module": "src/index.tsx",
+    "type": "module",
+    "devDependencies": {
+        "@types/bun": "latest",
+        "prettier": "^3.3.3"
+    },
+    "peerDependencies": {
+        "typescript": "^5.0.0"
+    }
+}
