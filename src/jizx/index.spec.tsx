@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test';
-import { renderJizx, type Jizx } from 'jizx';
+import { renderJizx } from 'jizx';
 
 test('render string', () => {
     const result = renderJizx('Hello World!');
@@ -110,4 +110,10 @@ test('render complex page', () => {
     );
 
     expect(renderJizx(result)).toBe('Title: My ContainerChildren: Item 1Item 2Item 3Item 4');
+});
+
+test('render html', () => {
+    const result = <h1>{'String Child'}</h1>;
+
+    expect(renderJizx(result)).toBe('<h1>String Child</h1>');
 });

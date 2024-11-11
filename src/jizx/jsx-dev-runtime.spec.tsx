@@ -93,3 +93,32 @@ test('render children', () => {
         rendered: 'FRAGMENT',
     });
 });
+
+test('render html', () => {
+    const result = <h1>{'String Child'}</h1>;
+
+    expect(result).toEqual({
+        component: 'Fragment',
+        children: [
+            // opening tag (string)
+            {
+                children: [],
+                component: 'h1',
+                rendered: '<h1>',
+            },
+            // ...children (VirtualComponent)}
+            {
+                children: [],
+                component: 'string',
+                rendered: 'String CHild',
+            },
+            // closing tag (string)
+            {
+                children: [],
+                component: 'h1',
+                rendered: '</h1>',
+            },
+        ],
+        rendered: 'HTML',
+    });
+});

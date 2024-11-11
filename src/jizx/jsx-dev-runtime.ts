@@ -21,7 +21,6 @@ export const jsxDEV = <TProps>(
     component: Jizx.FC<TProps>,
     { children, ...props }: { children?: Jizx.Child | Jizx.Child[] } & TProps,
 ): JSX.Element => {
-    console.log(typeof component);
     const _children: JSX.Element[] = (arr(children) ?? [<Jizx.Child>children]).filter(Boolean).map((child) =>
         str(child)
             ? {

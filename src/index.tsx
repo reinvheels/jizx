@@ -3,7 +3,7 @@ import { renderJizx } from './jizx';
 
 const Item: Jizx.FC<{ name: string }> = ({ name }) => (
     <>
-        <li>
+        <li class="hello stuff">
             {'Item'} {name}
         </li>
     </>
