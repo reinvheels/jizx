@@ -1,11 +1,6 @@
-import type { Jizx } from './jsx-dev-runtime';
 import { arr } from './util';
 
-export { type Jizx, jsxDEV, Fragment } from './jsx-dev-runtime';
-
-export declare namespace JSX {
-    type Element = string | Jizx.VirtualComponent;
-}
+export { jsxDEV, Fragment } from './jsx-dev-runtime';
 
 export const renderJizx = (element: JSX.Element): string => {
     if (typeof element === 'string') return element;

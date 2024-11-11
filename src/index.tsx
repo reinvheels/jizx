@@ -1,11 +1,11 @@
 import { format, resolveConfig } from 'prettier';
-import { renderJizx, type Jizx } from './jizx';
+import { renderJizx } from './jizx';
 
 const Item: Jizx.FC<{ name: string }> = ({ name }) => (
     <>
-        {'<li>'}
-        {'Item'} {name}
-        {'</li>'}
+        <li>
+            {'Item'} {name}
+        </li>
     </>
 );
 const Container: Jizx.FC<{ title: string }> = ({ title, children }) => (

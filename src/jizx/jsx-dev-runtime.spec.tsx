@@ -1,5 +1,4 @@
 import { expect, test } from 'bun:test';
-import type { Jizx } from 'jizx';
 
 const BasicComponent: Jizx.FC<{ message: string }> = ({ message }) => message;
 test('basic component', () => {
