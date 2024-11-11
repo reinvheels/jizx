@@ -31,9 +31,12 @@ export const jsxDEV = <TProps>(
             : child,
     );
     if (typeof component === 'string') {
+        const hasChildren = _children.length > 0;
         return {
             component: 'Fragment',
-            children: [renderHtmlOpeningTag(component, props), ..._children, renderHtmlClosingTag(component)],
+            children: hasChildren
+                ? [renderHtmlOpeningTag(component, props), ..._children, renderHtmlClosingTag(component)]
+                : [renderHtmlOpeningTag(component, props, true)],
             rendered: 'HTML',
         };
     }
@@ -47,10 +50,18 @@ export const jsxDEV = <TProps>(
     };
 };
 
-const renderHtmlOpeningTag = (component: string, props: NonNullable<unknown>) => ({
+const renderHtmlOpeningTag = (component: string, props: Record<string, unknown>, close = false) => ({
     component,
     children: [],
-    rendered: `<${component}>`,
+    rendered: `<${component}${Object.keys(props)
+        .map((attribute) => {
+            const value = props[attribute];
+            if (typeof value === 'boolean') {
+                return value ? ` ${attribute}` : '';
+            }
+            return ` ${attribute}="${props[attribute]}"`;
+        })
+        .join('')}${close ? ' /' : ''}>`,
 });
 const renderHtmlClosingTag = (component: string) => ({
     component,

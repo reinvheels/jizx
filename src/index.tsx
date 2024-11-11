@@ -10,16 +10,12 @@ const Item: Jizx.FC<{ name: string }> = ({ name }) => (
 );
 const Container: Jizx.FC<{ title: string }> = ({ title, children }) => (
     <>
-        {'<h1>Title:</h1>'}
-        {'<p>'}
-        {title}
-        {'</p>'}
-        {'<h1>Children:</h1>'}
-        {'<div>'}
-        {'<ul>'}
-        {children}
-        {'</ul>'}
-        {'<div>'}
+        <h1>Title:</h1>
+        <p>{title}</p>
+        <h1>Children:</h1>
+        <div>
+            <ul>{children}</ul>
+        </div>
     </>
 );
 

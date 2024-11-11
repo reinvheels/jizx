@@ -117,3 +117,37 @@ test('render html', () => {
 
     expect(renderJizx(result)).toBe('<h1>String Child</h1>');
 });
+
+test('render html without children', () => {
+    const result = <br></br>;
+
+    expect(renderJizx(result)).toBe('<br />');
+});
+
+test('render html string attributes', () => {
+    const result = (
+        <h1 id="some-child" class="some classes">
+            {'Header'}
+        </h1>
+    );
+
+    expect(renderJizx(result)).toBe('<h1 id="some-child" class="some classes">Header</h1>');
+});
+
+test('render html number attributes', () => {
+    const result = <img width={500}></img>;
+
+    expect(renderJizx(result)).toBe('<img width="500" />');
+});
+
+test('render html true attributes', () => {
+    const result = <input type="checkbox" checked></input>;
+
+    expect(renderJizx(result)).toBe('<input type="checkbox" checked />');
+});
+
+test('render html false attributes', () => {
+    const result = <input type="checkbox" checked={false}></input>;
+
+    expect(renderJizx(result)).toBe('<input type="checkbox" />');
+});
