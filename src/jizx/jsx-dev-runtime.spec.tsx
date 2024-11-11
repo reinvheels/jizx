@@ -110,7 +110,7 @@ test('render html', () => {
             {
                 children: [],
                 component: 'string',
-                rendered: 'String CHild',
+                rendered: 'String Child',
             },
             // closing tag (string)
             {

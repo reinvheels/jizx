@@ -18,7 +18,7 @@ declare global {
 export const Fragment = () => 'FRAGMENT';
 
 export const jsxDEV = <TProps>(
-    component: Jizx.FC<TProps>,
+    component: string | Jizx.FC<TProps>,
     { children, ...props }: { children?: Jizx.Child | Jizx.Child[] } & TProps,
 ): JSX.Element => {
     const _children: JSX.Element[] = (arr(children) ?? [<Jizx.Child>children]).filter(Boolean).map((child) =>
@@ -30,6 +30,13 @@ export const jsxDEV = <TProps>(
               }
             : child,
     );
+    if (typeof component === 'string') {
+        return {
+            component: 'Fragment',
+            children: [renderHtmlOpeningTag(component, props), ..._children, renderHtmlClosingTag(component)],
+            rendered: 'HTML',
+        };
+    }
     return {
         component: component.name,
         children: _children,
@@ -39,3 +46,14 @@ export const jsxDEV = <TProps>(
         }),
     };
 };
+
+const renderHtmlOpeningTag = (component: string, props: NonNullable<unknown>) => ({
+    component,
+    children: [],
+    rendered: `<${component}>`,
+});
+const renderHtmlClosingTag = (component: string) => ({
+    component,
+    children: [],
+    rendered: `</${component}>`,
+});
