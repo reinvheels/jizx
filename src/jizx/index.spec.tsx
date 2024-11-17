@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test';
-import { renderJizx } from 'jizx';
+import { createContext, renderJizx, useContext } from 'jizx';
 
 test('render string', () => {
     const result = renderJizx('Hello World!');
@@ -150,4 +150,35 @@ test('render html false attributes', () => {
     const result = <input type="checkbox" checked={false}></input>;
 
     expect(renderJizx(result)).toBe('<input type="checkbox" />');
+});
+
+const TestContext = createContext('Default Value');
+test('render default context value', () => {
+    const Component = () => {
+        const value = useContext(TestContext);
+        return <h1>{value}</h1>;
+    };
+
+    const result = (
+        <TestContext.Provider>
+            <Component />
+        </TestContext.Provider>
+    );
+
+    expect(renderJizx(result)).toBe('<h1>Provided Value</h1>');
+});
+
+test('render provided context value', () => {
+    const Component = () => {
+        const value = useContext(TestContext);
+        return <h1>{value}</h1>;
+    };
+
+    const result = (
+        <TestContext.Provider value="Provided Value">
+            <Component />
+        </TestContext.Provider>
+    );
+
+    expect(renderJizx(result)).toBe('<h1>Provided Value</h1>');
 });

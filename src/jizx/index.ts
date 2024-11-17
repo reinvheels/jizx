@@ -16,7 +16,7 @@ export const renderJizx = (element: JSX.Element): string => {
 
 export type Context<T> = {
     defaultValue: T;
-    Provider: Jizx.FC<{ value: T }>;
+    Provider: Jizx.FC<{ value?: T }>;
 };
 export const createContext = <T>(defaultValue: T): Context<T> => {
     return {
