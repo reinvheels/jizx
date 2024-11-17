@@ -179,6 +179,55 @@ test('render provided context value', () => {
     expect(renderJizx(result)).toBe('<h1>Provided Value</h1>');
 });
 
+const OutOfContext1 = createContext('Not in Context');
+test('do not render out of context 1', () => {
+    const Component: Jizx.FC<{}> = () => {
+        const value = useContext(OutOfContext1);
+        return (
+            <>
+                <h1>{value}</h1>
+                <OutOfContext1.Provider value="Provided Value" />
+            </>
+        );
+    };
+
+    expect(renderJizx(<Component />)).toBe('<h1>Not in Context</h1>');
+});
+
+const OutOfContext2 = createContext('Not in Context');
+test('do not render out of context 2', () => {
+    const Component: Jizx.FC<{}> = () => {
+        const value = useContext(OutOfContext2);
+        return <h1>{value}</h1>;
+    };
+
+    expect(
+        renderJizx(
+            <>
+                <Component />
+                <OutOfContext2.Provider value="Provided Value" />
+            </>,
+        ),
+    ).toBe('<h1>Not in Context</h1>');
+});
+
+const OutOfContext3 = createContext('Not in Context');
+test('do not render out of context 3', () => {
+    const Component: Jizx.FC<{}> = () => {
+        const value = useContext(OutOfContext3);
+        return <h1>{value}</h1>;
+    };
+
+    expect(
+        renderJizx(
+            <>
+                <OutOfContext3.Provider value="Provided Value" />
+                <Component />
+            </>,
+        ),
+    ).toBe('<h1>Not in Context</h1>');
+});
+
 const NestedContext = createContext('Root Value');
 test('render nested provided values in correct order', () => {
     const Component: Jizx.FC<{}> = ({ children }) => {
