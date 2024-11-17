@@ -25,4 +25,4 @@ export const createContext = <T>(defaultValue: T): Context<T> => {
     };
 };
 
-export const useContext = <T>(context: Context<T>): T => '' as T;
+export const useContext = <T>(context: Context<T>): T => context.defaultValue;
