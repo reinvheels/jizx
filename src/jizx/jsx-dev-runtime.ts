@@ -6,6 +6,7 @@ declare global {
         type FC<TProps> = (props: TProps & { children?: Child | Child[] }) => JSX.Element;
         type VirtualComponent = {
             component: string;
+            context?: [symbol, NonNullable<unknown>];
             children: (Child | Child[])[];
             render: () => JSX.Element;
         };

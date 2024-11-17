@@ -369,9 +369,18 @@ test('render recursive nested provided values in correct order', () => {
                     <h1>1.1</h1>
                     <div>
                         <h1>1.1.1</h1>
+                        <div>
+                            <h1>1.1.1.1</h1>
+                        </div>
                     </div>
                     <div>
-                        <h1>1.1.1</h1>
+                        <h1>1.1.2</h1>
+                        <div>
+                            <h1>1.1.2.1</h1>
+                        </div>
+                        <div>
+                            <h1>1.1.2.2</h1>
+                        </div>
                     </div>
                 </div>
                 <div>
