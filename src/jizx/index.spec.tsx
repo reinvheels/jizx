@@ -269,3 +269,130 @@ test('render nested provided values in correct order', () => {
         ),
     );
 });
+
+type Nesting = {
+    name: string;
+    children?: Nesting[];
+};
+const RecursiveNestedContext = createContext<string[]>([]);
+test('render recursive nested provided values in correct order', () => {
+    const ChildrenComponent: Jizx.FC<{ nestings?: Nesting[] }> = ({ nestings }) => {
+        const value = useContext(RecursiveNestedContext);
+        return (
+            <div>
+                <h1>{value.join('.')}</h1>
+                <>{nestings ? nestings.map((nesting) => <Component nesting={nesting} />) : ''}</>
+            </div>
+        );
+    };
+    const Component: Jizx.FC<{ nesting: Nesting }> = ({ nesting }) => {
+        const AnonymousComponent: Jizx.FC<{ nestingInner: Nesting }> = ({ nestingInner }) => {
+            const value = useContext(RecursiveNestedContext);
+            return (
+                <RecursiveNestedContext.Provider value={[...value, nestingInner.name]}>
+                    <ChildrenComponent nestings={nestingInner.children} />
+                </RecursiveNestedContext.Provider>
+            );
+        };
+        return <AnonymousComponent nestingInner={nesting} />;
+    };
+
+    const result = (
+        <Component
+            nesting={{
+                name: '1',
+                children: [
+                    {
+                        name: '1',
+                        children: [
+                            {
+                                name: '1',
+                                children: [
+                                    {
+                                        name: '1',
+                                        children: [],
+                                    },
+                                ],
+                            },
+                            {
+                                name: '2',
+                                children: [
+                                    {
+                                        name: '1',
+                                        children: [],
+                                    },
+                                    {
+                                        name: '2',
+                                        children: [],
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        name: '2',
+                        children: [
+                            {
+                                name: '1',
+                                children: [
+                                    {
+                                        name: '1',
+                                        children: [],
+                                    },
+                                    {
+                                        name: '2',
+                                        children: [],
+                                    },
+                                ],
+                            },
+                            {
+                                name: '2',
+                                children: [
+                                    {
+                                        name: '1',
+                                        children: [],
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            }}
+        />
+    );
+
+    expect(renderJizx(result)).toBe(
+        renderJizx(
+            <div>
+                <h1>1</h1>
+                <div>
+                    <h1>1.1</h1>
+                    <div>
+                        <h1>1.1.1</h1>
+                    </div>
+                    <div>
+                        <h1>1.1.1</h1>
+                    </div>
+                </div>
+                <div>
+                    <h1>1.2</h1>
+                    <div>
+                        <h1>1.2.1</h1>
+                        <div>
+                            <h1>1.2.1.1</h1>
+                        </div>
+                        <div>
+                            <h1>1.2.1.2</h1>
+                        </div>
+                    </div>
+                    <div>
+                        <h1>1.2.2</h1>
+                        <div>
+                            <h1>1.2.2.1</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>,
+        ),
+    );
+});
