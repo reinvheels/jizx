@@ -7,7 +7,7 @@ declare global {
         type VirtualComponent = {
             component: string;
             children: (Child | Child[])[];
-            rendered: JSX.Element;
+            render: () => JSX.Element;
         };
         type Child = JSX.Element;
     }
@@ -26,7 +26,7 @@ export const jsxDEV = <TProps>(
             ? {
                   children: [],
                   component: 'string',
-                  rendered: child,
+                  render: () => child,
               }
             : child,
     );
@@ -37,34 +37,36 @@ export const jsxDEV = <TProps>(
             children: hasChildren
                 ? [renderHtmlOpeningTag(component, props), ..._children, renderHtmlClosingTag(component)]
                 : [renderHtmlOpeningTag(component, props, true)],
-            rendered: 'HTML',
+            render: () => 'HTML',
         };
     }
     return {
         component: component.name,
         children: _children,
-        rendered: component({
-            children: _children,
-            ...(<TProps>props),
-        }),
+        render: () =>
+            component({
+                children: _children,
+                ...(<TProps>props),
+            }),
     };
 };
 
-const renderHtmlOpeningTag = (component: string, props: Record<string, unknown>, close = false) => ({
+const renderHtmlOpeningTag = (component: string, props: Record<string, unknown>, close = false): JSX.Element => ({
     component,
     children: [],
-    rendered: `<${component}${Object.keys(props)
-        .map((attribute) => {
-            const value = props[attribute];
-            if (typeof value === 'boolean') {
-                return value ? ` ${attribute}` : '';
-            }
-            return ` ${attribute}="${props[attribute]}"`;
-        })
-        .join('')}${close ? ' /' : ''}>`,
+    render: () =>
+        `<${component}${Object.keys(props)
+            .map((attribute) => {
+                const value = props[attribute];
+                if (typeof value === 'boolean') {
+                    return value ? ` ${attribute}` : '';
+                }
+                return ` ${attribute}="${props[attribute]}"`;
+            })
+            .join('')}${close ? ' /' : ''}>`,
 });
-const renderHtmlClosingTag = (component: string) => ({
+const renderHtmlClosingTag = (component: string): JSX.Element => ({
     component,
     children: [],
-    rendered: `</${component}>`,
+    render: () => `</${component}>`,
 });

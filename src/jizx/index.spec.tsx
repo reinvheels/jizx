@@ -156,7 +156,6 @@ const TestContext = createContext('Default Value');
 test('render default context value', () => {
     const Component = () => {
         const value = useContext(TestContext);
-        console.log(value);
         return <h1>{value}</h1>;
     };
 
