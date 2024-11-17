@@ -165,7 +165,7 @@ test('render default context value', () => {
 });
 
 test('render provided context value', () => {
-    const Component = () => {
+    const Component: Jizx.FC<{}> = () => {
         const value = useContext(TestContext);
         return <h1>{value}</h1>;
     };
@@ -177,4 +177,46 @@ test('render provided context value', () => {
     );
 
     expect(renderJizx(result)).toBe('<h1>Provided Value</h1>');
+});
+
+const NestedContext = createContext('Root Value');
+test('render nested provided values in correct order', () => {
+    const Component: Jizx.FC<{}> = ({ children }) => {
+        const value = useContext(NestedContext);
+        return (
+            <>
+                <h1>{value}</h1>
+                <div>{children}</div>
+            </>
+        );
+    };
+
+    const result = (
+        <NestedContext.Provider value="Level 1 Value">
+            <Component>
+                <NestedContext.Provider value="Level 2 Value">
+                    <Component>
+                        <NestedContext.Provider value="Level 3 Value">
+                            <Component />
+                        </NestedContext.Provider>
+                    </Component>
+                </NestedContext.Provider>
+            </Component>
+        </NestedContext.Provider>
+    );
+
+    expect(renderJizx(result)).toBe(
+        renderJizx(
+            <>
+                <h1>Level 1 Value</h1>
+                <div>
+                    <h1>Level 2 Value</h1>
+                    <div>
+                        <h1>Level 3 Value</h1>
+                        <div></div>
+                    </div>
+                </div>
+            </>,
+        ),
+    );
 });
