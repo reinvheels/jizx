@@ -1,5 +1,5 @@
 import { format, resolveConfig } from 'prettier';
-import { renderJizx } from './jizx';
+import { createContext, renderJizx, useContext } from './jizx';
 
 const Item: Jizx.FC<{ name: string }> = ({ name }) => (
     <>
@@ -8,26 +8,31 @@ const Item: Jizx.FC<{ name: string }> = ({ name }) => (
         </li>
     </>
 );
-const Container: Jizx.FC<{ title: string }> = ({ title, children }) => (
-    <>
-        <h1>Title:</h1>
-        <p>{title}</p>
-        <h1>Children:</h1>
-        <div>
-            <ul>{children}</ul>
-        </div>
-    </>
-);
+const SomeContext = createContext('Default Value');
+const Container: Jizx.FC<{ title: string }> = ({ title, children }) => {
+    const value = useContext(SomeContext);
+    return (
+        <>
+            <h1>Title:</h1>
+            <p>{title}</p>
+            <h1>Children:</h1>
+            <div>
+                {value}
+                <ul>{children}</ul>
+            </div>
+        </>
+    );
+};
 
 const result = (
-    <Container title="My Container">
-        <>
+    <SomeContext.Provider value="Provided Value">
+        <Container title="My Container">
             <Item name="1" />
             <Item name="2" />
             <Item name="3" />
-        </>
-        <Item name="4" />
-    </Container>
+            <Item name="4" />
+        </Container>
+    </SomeContext.Provider>
 );
 
 console.log(
