@@ -15,6 +15,48 @@ test('render string body', () => {
     expect(result).toBe('Hello World!');
 });
 
+test('render undefined child', () => {
+    const result = renderJizx(<>{undefined}</>);
+
+    expect(result).toBe('');
+});
+
+test('render && condition', () => {
+    const result = renderJizx(<>{false && 'Hello'}</>);
+
+    expect(result).toBe('');
+});
+
+test('render undefined as sibling', () => {
+    const result = renderJizx(
+        <div>
+            <div></div>
+            {undefined}
+        </div>,
+    );
+
+    expect(result).toBe('<div><div /></div>');
+});
+
+test('render false as sibling', () => {
+    const result = renderJizx(
+        <div>
+            <div></div>
+            {false}
+        </div>,
+    );
+
+    expect(result).toBe('<div><div /></div>');
+});
+
+test('render undefined component', () => {
+    const Component: Jizx.FC<{}> = ({}) => undefined;
+
+    const result = renderJizx(<Component />);
+
+    expect(result).toBe('');
+});
+
 test('render Fragment single nested', () => {
     const Component: Jizx.FC<{}> = ({}) => <>{'Hello World!'}</>;
 
