@@ -57,6 +57,14 @@ test('render undefined component', () => {
     expect(result).toBe('');
 });
 
+test('render false component', () => {
+    const Component: Jizx.FC<{}> = ({}) => false;
+
+    const result = renderJizx(<Component />);
+
+    expect(result).toBe('');
+});
+
 test('render Fragment single nested', () => {
     const Component: Jizx.FC<{}> = ({}) => <>{'Hello World!'}</>;
 

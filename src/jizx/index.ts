@@ -5,6 +5,8 @@ export { jsxDEV, Fragment } from './jsx-dev-runtime';
 const _contexts: Record<symbol, NonNullable<unknown> | null> = {};
 
 export const renderJizx = (element: JSX.Element): string => {
+    if (typeof element === 'undefined' || typeof element === 'boolean') return '';
+
     if (typeof element === 'string') return element;
 
     let contextId: symbol | null = null;

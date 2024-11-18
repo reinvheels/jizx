@@ -9,7 +9,7 @@ import * as csstype from 'csstype';
 type DOMElement = Element;
 
 export namespace JSX {
-    type Element = string | Jizx.VirtualComponent;
+    type Element = string | Jizx.VirtualComponent | boolean | undefined;
     interface ArrayElement extends Array<Element> {}
     interface ElementClass {
         // empty, libs can define requirements downstream
