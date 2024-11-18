@@ -39,7 +39,7 @@ export const renderJizx = (element: JSX.Element): string => {
 export type Context<T> = {
     id: symbol;
     defaultValue: T;
-    Provider: Jizx.FC<{ value?: T }>;
+    Provider: Jizx.Component<{ value?: T }>;
 };
 export const createContext = <T extends NonNullable<unknown>>(defaultValue: T): Context<T> => {
     const id = Symbol('context');

@@ -8,7 +8,7 @@ test('render string', () => {
 });
 
 test('render string body', () => {
-    const Component: Jizx.FC<{ message: string }> = ({ message }) => message;
+    const Component: Jizx.Component<{ message: string }> = ({ message }) => message;
 
     const result = renderJizx(<Component message="Hello World!" />);
 
@@ -50,7 +50,7 @@ test('render false as sibling', () => {
 });
 
 test('render undefined component', () => {
-    const Component: Jizx.FC<{}> = ({}) => undefined;
+    const Component: Jizx.Component<{}> = ({}) => undefined;
 
     const result = renderJizx(<Component />);
 
@@ -58,7 +58,7 @@ test('render undefined component', () => {
 });
 
 test('render false component', () => {
-    const Component: Jizx.FC<{}> = ({}) => false;
+    const Component: Jizx.Component<{}> = ({}) => false;
 
     const result = renderJizx(<Component />);
 
@@ -66,7 +66,7 @@ test('render false component', () => {
 });
 
 test('render Fragment single nested', () => {
-    const Component: Jizx.FC<{}> = ({}) => <>{'Hello World!'}</>;
+    const Component: Jizx.Component<{}> = ({}) => <>{'Hello World!'}</>;
 
     const result = renderJizx(<Component />);
 
@@ -74,7 +74,7 @@ test('render Fragment single nested', () => {
 });
 
 test('render Fragment multiple nested', () => {
-    const Component: Jizx.FC<{}> = ({}) => (
+    const Component: Jizx.Component<{}> = ({}) => (
         <>
             {'First'} {'Second'}
         </>
@@ -86,8 +86,8 @@ test('render Fragment multiple nested', () => {
 });
 
 test('render custom single nested', () => {
-    const Child: Jizx.FC<{}> = ({}) => <>{'String Child'}</>;
-    const Component: Jizx.FC<{}> = ({}) => <Child />;
+    const Child: Jizx.Component<{}> = ({}) => <>{'String Child'}</>;
+    const Component: Jizx.Component<{}> = ({}) => <Child />;
 
     const result = renderJizx(<Component />);
 
@@ -95,12 +95,12 @@ test('render custom single nested', () => {
 });
 
 test('render custom multiple nested', () => {
-    const Child: Jizx.FC<{}> = ({}) => (
+    const Child: Jizx.Component<{}> = ({}) => (
         <>
             {'First'} {'Second'}
         </>
     );
-    const Component: Jizx.FC<{}> = ({}) => <Child />;
+    const Component: Jizx.Component<{}> = ({}) => <Child />;
 
     const result = renderJizx(<Component />);
 
@@ -108,8 +108,8 @@ test('render custom multiple nested', () => {
 });
 
 test('render children', () => {
-    const Child: Jizx.FC<{}> = ({}) => <>{'Child'}</>;
-    const Component: Jizx.FC<{}> = ({ children }) => <>{children}</>;
+    const Child: Jizx.Component<{}> = ({}) => <>{'Child'}</>;
+    const Component: Jizx.Component<{}> = ({ children }) => <>{children}</>;
 
     const result = renderJizx(
         <Component>
@@ -122,8 +122,8 @@ test('render children', () => {
 });
 
 test("don't render children", () => {
-    const Child: Jizx.FC<{}> = ({}) => <>{'Child'}</>;
-    const Component: Jizx.FC<{}> = ({}) => <>{'No children'}</>;
+    const Child: Jizx.Component<{}> = ({}) => <>{'Child'}</>;
+    const Component: Jizx.Component<{}> = ({}) => <>{'No children'}</>;
 
     const result = renderJizx(
         <Component>
@@ -136,12 +136,12 @@ test("don't render children", () => {
 });
 
 test('render complex page', () => {
-    const Item: Jizx.FC<{ name: string }> = ({ name }) => (
+    const Item: Jizx.Component<{ name: string }> = ({ name }) => (
         <>
             {'Item'} {name}
         </>
     );
-    const Container: Jizx.FC<{ title: string }> = ({ title, children }) => (
+    const Container: Jizx.Component<{ title: string }> = ({ title, children }) => (
         <>
             {'Title:'} {title}
             {'Children:'} {children}
@@ -215,7 +215,7 @@ test('render default context value', () => {
 });
 
 test('render provided context value', () => {
-    const Component: Jizx.FC<{}> = () => {
+    const Component: Jizx.Component<{}> = () => {
         const value = useContext(TestContext);
         return <h1>{value}</h1>;
     };
@@ -231,7 +231,7 @@ test('render provided context value', () => {
 
 const OutOfContext1 = createContext('Not in Context');
 test('do not render out of context 1', () => {
-    const Component: Jizx.FC<{}> = () => {
+    const Component: Jizx.Component<{}> = () => {
         const value = useContext(OutOfContext1);
         return (
             <>
@@ -246,7 +246,7 @@ test('do not render out of context 1', () => {
 
 const OutOfContext2 = createContext('Not in Context');
 test('do not render out of context 2', () => {
-    const Component: Jizx.FC<{}> = () => {
+    const Component: Jizx.Component<{}> = () => {
         const value = useContext(OutOfContext2);
         return <h1>{value}</h1>;
     };
@@ -263,7 +263,7 @@ test('do not render out of context 2', () => {
 
 const OutOfContext3 = createContext('Not in Context');
 test('do not render out of context 3', () => {
-    const Component: Jizx.FC<{}> = () => {
+    const Component: Jizx.Component<{}> = () => {
         const value = useContext(OutOfContext3);
         return <h1>{value}</h1>;
     };
@@ -280,7 +280,7 @@ test('do not render out of context 3', () => {
 
 const NestedContext = createContext('Root Value');
 test('render nested provided values in correct order', () => {
-    const Component: Jizx.FC<{}> = ({ children }) => {
+    const Component: Jizx.Component<{}> = ({ children }) => {
         const value = useContext(NestedContext);
         return (
             <>
@@ -326,7 +326,7 @@ type Nesting = {
 };
 const RecursiveNestedContext = createContext<string[]>([]);
 test('render recursive nested provided values in correct order', () => {
-    const ChildrenComponent: Jizx.FC<{ nestings?: Nesting[] }> = ({ nestings }) => {
+    const ChildrenComponent: Jizx.Component<{ nestings?: Nesting[] }> = ({ nestings }) => {
         const value = useContext(RecursiveNestedContext);
         return (
             <div>
@@ -335,8 +335,8 @@ test('render recursive nested provided values in correct order', () => {
             </div>
         );
     };
-    const Component: Jizx.FC<{ nesting: Nesting }> = ({ nesting }) => {
-        const AnonymousComponent: Jizx.FC<{ nestingInner: Nesting }> = ({ nestingInner }) => {
+    const Component: Jizx.Component<{ nesting: Nesting }> = ({ nesting }) => {
+        const AnonymousComponent: Jizx.Component<{ nestingInner: Nesting }> = ({ nestingInner }) => {
             const value = useContext(RecursiveNestedContext);
             return (
                 <RecursiveNestedContext.Provider value={[...value, nestingInner.name]}>

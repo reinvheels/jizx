@@ -3,7 +3,7 @@ import { JSX as JSXHtml } from './jsx';
 
 declare global {
     namespace Jizx {
-        type FC<TProps> = (props: TProps & { children?: Child | Child[] }) => JSX.Element;
+        type Component<TProps> = (props: TProps & { children?: Child | Child[] }) => JSX.Element;
         type VirtualComponent = {
             component: string;
             context?: [symbol, NonNullable<unknown>];
@@ -19,7 +19,7 @@ declare global {
 export const Fragment = () => 'FRAGMENT';
 
 export const jsxDEV = <TProps>(
-    component: string | Jizx.FC<TProps>,
+    component: string | Jizx.Component<TProps>,
     { children, ...props }: { children?: Jizx.Child | Jizx.Child[] } & TProps,
 ): JSX.Element => {
     const _children: JSX.Element[] = (arr(children) ?? [<Jizx.Child>children]).filter(Boolean).map((child) =>

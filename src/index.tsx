@@ -1,7 +1,7 @@
 import { format, resolveConfig } from 'prettier';
 import { createContext, renderJizx, useContext } from './jizx';
 
-const Item: Jizx.FC<{ name: string }> = ({ name }) => (
+const Item: Jizx.Component<{ name: string }> = ({ name }) => (
     <>
         <li class="hello stuff">
             {'Item'} {name}
@@ -9,7 +9,7 @@ const Item: Jizx.FC<{ name: string }> = ({ name }) => (
     </>
 );
 const SomeContext = createContext('Default Value');
-const Container: Jizx.FC<{ title: string }> = ({ title, children }) => {
+const Container: Jizx.Component<{ title: string }> = ({ title, children }) => {
     const value = useContext(SomeContext);
     return (
         <>
